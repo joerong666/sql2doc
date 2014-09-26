@@ -1,0 +1,120 @@
+<html>
+<head>
+<title>表结构</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8">
+<style type="text/css">
+<!--
+.toptext {font-family: verdana; color: #000000; font-size: 20px; font-weight: 600; width:550;  background-color:#999999; }
+.normal {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; font-weight: normal; color: #000000}
+.fieldheader {font-family: verdana; color: #000000; font-size: 12px; font-weight: 600; width:550;  background-color:#c0c0c0; }
+.fieldcolumn {font-family: verdana; color: #000000; font-size: 10px; font-weight: 600; width:550;  background-color:#ffffff; }
+.header {background-color: #ECE9D8;}
+.headtext {font-family: verdana; color: #000000; font-size: 12; font-weight: 600; width:550;  background-color:#999999; }
+BR.page {page-break-after: always}
+
+body {line-height:1.4em;font-size:16px;font-family:"\5FAE\8F6F\96C5\9ED1";color:#666;background:#ffffff;}
+
+.toptext {font-family: "\5FAE\8F6F\96C5\9ED1"; color: #000000; font-size: 20px; font-weight: 600; width:550;  background-color:#E5E5E5; }
+.normal {font-family: "\5FAE\8F6F\96C5\9ED1"; font-size: 16px; font-weight: normal; color: #000000}
+.fieldheader {font-family: "\5FAE\8F6F\96C5\9ED1"; color: #000000; font-size: 16px; font-weight: 600; width:550;  background-color:#E5E5E5; }
+.fieldcolumn {font-family: verdana; color: #000000; font-size: 16px; font-weight: 600; width:550;  background-color:#99CDFF; }
+.header {background-color: #E5E5E5;}
+.headtext {font-family: "\5FAE\8F6F\96C5\9ED1"; color: #000000; font-size: 16px; font-weight: 600; width:550;  background-color:#E5E5E5; }
+
+table {  
+	border: 1px solid #000000;  
+	padding:0;   
+	margin:0 auto;  
+	border-collapse: collapse;  
+}  
+  
+td {  
+	border: 1px solid #000000;  
+	background: #fff;  
+	font-size:12px;  
+	padding: 3px 3px 3px 8px;  
+	color: #4f6b72;  
+} 
+//-->
+</style>
+
+<script src="script/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="script/underscore-min.js" type="text/javascript"></script>
+<script src="script/dbtable.js" type="text/javascript"></script>
+
+<script id="tp_main" type="text/template"> 
+<ul id="nav">
+<% _.each(collection, function(model) {%>
+	<li><a href="#<%=model.tbname%>"><p class="normal"><%=model.tbname%></a></li>
+<%});%>
+</ul>
+
+<% _.each(collection, function(model) {%>
+<a href="#header"><p class="normal">Back</a><br class=page>
+<p><a name='<%=model.tbname%>'>&nbsp</a>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+<tr>
+	<td class="headtext" width="30%" align="left" valign="top"><%=model.tbname%></td>
+	<td>&nbsp</td>
+<tr>
+</table>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+<tr>
+	<td class="fieldheader" width="100%" align="left" valign="top">Fields</td>
+</tr>
+</table>
+<table width="100%" cellspacing="0" cellapdding="2" border="1">
+<tr>
+	<td align="center" valign="top" class="fieldcolumn">Field</td>
+	<td align="center" valign="top" class="fieldcolumn">Type</td>
+	<td align="center" valign="top" class="fieldcolumn">Null</td>
+	<td align="center" valign="top" class="fieldcolumn" style="width:50%">Comment</td>
+</tr>
+
+<% _.each(model.fields, function(field) {%>
+<tr>
+
+	<td align="left" valign="top"><p class="normal"><%=field.name%></td>
+	<td align="left" valign="top"><p class="normal"><%=field.type%></td>
+	<td align="left" valign="top"><p class="normal"><%=field.allow_null%></td>
+	<td align="left" valign="top"><p class="normal"><%=field.comment%></td>
+
+</tr>
+<%});%>
+</table>
+
+<%});%>
+</script>
+
+<script type="text/javascript">
+	
+	$(function(){
+
+	var lastUpdateTime = '‎‎‎2014‎年‎6‎月‎17‎日，‏‎20:36:57';
+	var lastUpdateTimeHtml = '<span>最后生成时间：' + lastUpdateTime +  '  <a href="script/db.sql" target="_blank">点击下载脚本</a>  <a href="script/init.sql">点击下击初始化脚本</a></span>';
+	var designHtml = '<p/><a href="design.png" target="_blank" title="点击查看原图"><img src="html/design.png" width="50%" align="center" alt="这里粘贴设计图"/></a><p/>';
+			
+	//添加最后更新时间及设计图
+	$('#header').append(lastUpdateTimeHtml);
+	$('#header').append(designHtml);
+	
+	$('#main').html(_.template($("#tp_main").html(), {collection: tbcollection}));
+
+});
+</script>
+
+
+</head>
+<body bgcolor='#ffffff' topmargin="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+<tr>
+<td class="toptext"><p align="center">数据库表结构</td>
+</tr>
+</table>
+<a id="header">&nbsp</a>
+<div id="main"></div>
+
+<h1 width="100%">
+</body>
+</html>

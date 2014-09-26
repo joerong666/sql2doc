@@ -1,15 +1,16 @@
 #!/bin/awk -f
 
 BEGIN{
-    printf("var tbset = [");
+    IGNORECASE = 1;
+    printf("var tbcollection = [");
     first_tb = 0;
     first_field = 0;
     tb_s = 0; 
     tb_e = 0; 
     hit_key = 0; 
 } { 
-    
-    if($0 ~ /CREATE TABLE/i) {
+    gsub(/`/, "");
+    if($0 ~ /CREATE TABLE /) {
         tb_s = 1;
         hit_key = 0;
 
@@ -21,6 +22,7 @@ BEGIN{
             printf(",");
         }
 
+        sub(/\(/, "", $3);
         printf("{\"tbname\":\"%s\", \"fields\":[", $3);
         next;
     }
@@ -36,7 +38,7 @@ BEGIN{
 
     if(hit_key == 1) next;
 
-    if($0 ~ /PRIMARY KEY/i) {
+    if($0 ~ /PRIMARY KEY/) {
         split($0, arr, /\(|)/);
         key = arr[2];
 
@@ -53,15 +55,16 @@ BEGIN{
     } 
 
     printf("{");
+    sub(/,/, "", $2);
     printf("\"name\":\"%s\",\"type\":\"%s\",", $1, $2) ;
 
-    if($0 ~ /NOT NULL/i) {
+    if($0 ~ /NOT NULL/) {
         printf("\"allow_null\":\"NO\",");
     } else {
         printf("\"allow_null\":\"\",");
     }
 
-    if($0 ~ /COMMENT/i) {
+    if($0 ~ /COMMENT/) {
         split($0, arr, / COMMENT /);
         comment = arr[2];
         
