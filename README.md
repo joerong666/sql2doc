@@ -5,6 +5,6 @@ a util generate html doc from sql
 
 usage
 ========
-./sql2doc db.sql
+cd script && ./sql2doc.sh db.sql
 
 now dbtb.html is updated
